@@ -70,9 +70,6 @@ public class EmployeeControllerTest {
 	@Mock
 	private CountryService countryService;
 	
-	@Mock
-	private EmployeeSearchCommandValidator employeeSearchCommandValidator;
-	
 	private EmployeeController employeeController;
 	
 	private MockMvc mockMvc;
@@ -82,7 +79,7 @@ public class EmployeeControllerTest {
 		MockitoAnnotations.initMocks(this);
 		
 		this.employeeController = new EmployeeController(employeeService, statusService, positionService, stateService, countryService,
-				employeeSearchCommandValidator);
+				new EmployeeSearchCommandValidator());
 		mockMvc = MockMvcBuilders.standaloneSetup(this.employeeController)
 				.setCustomArgumentResolvers(new PageableHandlerMethodArgumentResolver()) //Needed to resolve issues with the pageable interface as 
 				//argument to the methods of the controller
@@ -225,7 +222,8 @@ public class EmployeeControllerTest {
 				.param("addressCommand.postalCode", "90123")
 				.param("addressCommand.countryCommand.id", "1")
 				.param("addressCommand.countryCommand.name", "United States")
-				.param("addressCommand.isMainAddress", "true"))
+				.param("addressCommand.isMainAddress", "true")
+				.param("addressCommand.stateCommand.id", "1"))
 		.andExpect(status().is3xxRedirection())
 		.andExpect(view().name("redirect:/employee/1/show"));
 	}

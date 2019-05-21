@@ -73,10 +73,5 @@ public class Employee extends MainEntity  {
 		this.address = address;
 		this.position = position;
 		this.status = status;
-	}
-
-	
-	
-	
-	
+	}	
 }

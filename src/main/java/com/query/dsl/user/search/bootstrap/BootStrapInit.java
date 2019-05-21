@@ -138,10 +138,10 @@ public class BootStrapInit implements ApplicationListener<ContextRefreshedEvent>
 		position6.setPosition("Office Manager");
 		positions.add(position6);
 		
-		Position position7 = new Position();
+		/*Position position7 = new Position();
 		position7.setId(Long.valueOf(3));
 		position7.setPosition("CEO");
-		positions.add(position7);
+		positions.add(position7);*/
 		
 		this.positionRepository.saveAll(positions);
 	}
@@ -160,7 +160,7 @@ public class BootStrapInit implements ApplicationListener<ContextRefreshedEvent>
 		status1.setStatus("ACTIVE");
 		statuses.add(status1);
 		
-		Status status2 = new Status();
+		/*Status status2 = new Status();
 		status2.setId(Long.valueOf(3));
 		status2.setStatus("LAYOFF");
 		statuses.add(status2);
@@ -168,7 +168,7 @@ public class BootStrapInit implements ApplicationListener<ContextRefreshedEvent>
 		Status status3 = new Status();
 		status3.setId(Long.valueOf(3));
 		status3.setStatus("SABBATICAL");
-		statuses.add(status3);
+		statuses.add(status3);*/
 		
 		this.statusRepository.saveAll(statuses);
 	}
