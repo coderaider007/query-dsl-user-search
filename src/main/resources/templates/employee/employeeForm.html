@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Question Search</title>
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"> -->
+
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
+
+<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"
+th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script> -->
+
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container-fluid" style="margin-top:20px;">
+		<div class="row" style="margin-bottom : 10px;">
+			<div class="col-md-8 col-md-offset-1">
+				<div class="row">
+					<div class="col-md-10"></div>
+					<div class="col-md-1" style="margin-right:10px;" th:if="${employeeSearchCommand != null}">  
+						<form th:object="${employeeSearchCommand}" th:action="@{/employee/search/new}" method="post">
+							<input type="hidden" th:field="*{id}">
+							<input type="hidden" th:field="*{firstName}">
+							<input type="hidden" th:field="*{lastName}">
+							<input type="hidden" th:field="*{startDateLessThan}">
+							<input type="hidden" th:field="*{startDateGreaterThan}">
+							<input type="hidden" th:field="*{endDateLessThan}">
+							<input type="hidden" th:field="*{endDateGreaterThan}">
+							<input type="hidden" th:field="*{address}">
+							<input type="hidden" th:field="*{positionId}">
+							<input type="hidden" th:field="*{statusId}">
+							<input type="hidden" th:field="*{page}">
+							<input type="hidden" th:field="*{size}">
+							<button type="submit" class="btn btn-primary">Back To Search</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-1">
+				<form th:object="${employeeForm}" th:action="@{/employee/save}" method="post">
+					<input type="hidden" th:field="*{id}">
+					<input type="hidden" th:field="*{addressCommand.id}">
+					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
+						<p>Please correct errors below</p>
+					</div>
+					<div class="panel-group">
+						<div class="panel panel-primary" style="margin-bottom : 5px;">
+							<div class="panel-heading">
+								<h1 class="panel-title">Employee Update</h1>															
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-5 form-group" th:class="${#fields.hasErrors('firstName')} 
+									? 'col-md-5 form-group has-error' : 'col-md-5 form-group'">
+										<label>First Name*</label>
+										<input type="text" class="form-control" th:field="*{firstName}" th:errorClass="has-error">
+										<span class="help-block" th:if="${#fields.hasErrors('firstName')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('firstName')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+									<div class="col-md-5 form-group" th:class="${#fields.hasErrors('lastName')} 
+									? 'col-md-5 form-group has-error' : 'col-md-5 form-group'">
+										<label>Last Name*</label>
+										<input type="text" class="form-control" th:field="*{lastName}" th:errorClass="has-error">
+										<span class="help-block" th:if="${#fields.hasErrors('lastName')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('lastName')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5 form-group" th:class="${#fields.hasErrors('startDate')} 
+									? 'col-md-5 form-group has-error' : 'col-md-5 form-group'">
+										<label>Hire Date*</label>
+										<input type="date" class="form-control" th:field="*{startDate}">
+										<span class="help-block" th:if="${#fields.hasErrors('startDate')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('startDate')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+									<div class="col-md-5 form-group" th:class="${#fields.hasErrors('endDate')} 
+									? 'col-md-5 form-group has-error' : 'col-md-5 form-group'">
+										<label>End Date</label>
+										<input type="date" class="form-control" th:field="*{endDate}">
+										<span class="help-block" th:if="${#fields.hasErrors('endDate')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('endDate')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5 form-group" th:class="${#fields.hasErrors('addressCommand.address1')} 
+									? 'col-md-5 form-group has-error' : 'col-md-5 form-group'">
+										<label>Address 1*</label>
+										<input type="text" class="form-control" th:field="*{addressCommand.address1}">
+										<span class="help-block" th:if="${#fields.hasErrors('addressCommand.address1')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('addressCommand.address1')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+									<div class="col-md-3 form-group" th:class="${#fields.hasErrors('addressCommand.address2')} 
+									? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
+										<label>Address 2</label>
+										<input type="text" class="form-control" th:field="*{addressCommand.address2}">
+										<span class="help-block" th:if="${#fields.hasErrors('addressCommand.address2')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('addressCommand.address2')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+									<div class="col-md-4 form-group" th:class="${#fields.hasErrors('addressCommand.city')} 
+									? 'col-md-4 form-group has-error' : 'col-md-4 form-group'">
+										<label>City*</label>
+										<input type="text" class="form-control" th:field="*{addressCommand.city}">
+										<span class="help-block" th:if="${#fields.hasErrors('addressCommand.city')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('addressCommand.city')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5 form-group" th:class="${#fields.hasErrors('addressCommand.StateCommand.id')} 
+									? 'col-md-5 form-group has-error' : 'col-md-5 form-group'">
+										<label>State*</label>
+										<select class="form-control" th:field="*{addressCommand.StateCommand.id}">
+											<option value="" th:selected="true"></option>
+	                                        <option th:each="state : ${states}"
+	                                                th:value="${state.id}"
+	                                                th:selected="${state.id.equals(employeeForm.addressCommand.StateCommand.id)}"
+	                                                th:text="${state.name}">State</option>
+	                                    </select>
+	                                    <span class="help-block" th:if="${#fields.hasErrors('addressCommand.StateCommand.id')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('addressCommand.StateCommand.id')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+									<div class="col-md-3 form-group" th:class="${#fields.hasErrors('addressCommand.countryCommand.id')} 
+									? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
+										<label>Country*</label>
+										<select class="form-control" th:field="*{addressCommand.countryCommand.id}" th:readonly="true">
+											<option th:each="country : ${countries}"
+	                                                th:value="${country.id}"
+	                                                th:selected="${country.id.equals(employeeForm.addressCommand.countryCommand.id)}"
+	                                                th:text="${country.name}">Country</option>
+	                                    </select>
+	                                    <span class="help-block" th:if="${#fields.hasErrors('addressCommand.countryCommand.id')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('addressCommand.countryCommand.id')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+									<div class="col-md-4 form-group" th:class="${#fields.hasErrors('addressCommand.postalCode')} 
+									? 'col-md-4 form-group has-error' : 'col-md-4 form-group'">
+										<label>Postal Code*</label>
+										<input type="text" class="form-control" th:field="*{addressCommand.postalCode}">
+										<span class="help-block" th:if="${#fields.hasErrors('addressCommand.postalCode')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('addressCommand.postalCode')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5 form-group" th:class="${#fields.hasErrors('statusCommand.id')} 
+									? 'col-md-5 form-group has-error' : 'col-md-5 form-group'">
+										<label>Status*</label>
+										<select class="form-control" th:field="*{statusCommand.id}">
+											<option th:each="status : ${statuses}"
+	                                                th:value="${status.id}"
+	                                                th:selected="${status.id.equals(employeeForm.statusCommand.id)}"
+	                                                th:text="${status.status}">Status</option>
+	                                    </select><!--  -->
+	                                    <span class="help-block" th:if="${#fields.hasErrors('statusCommand.id')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('statusCommand.id')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+									<div class="col-md-3 form-group" th:class="${#fields.hasErrors('positionCommand.id')} 
+									? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
+										<label>Position*</label>
+										<select class="form-control" th:field="*{positionCommand.id}">
+											<!-- <option value="" th:selected="true"></option> -->
+	                                        <option th:each="position : ${positions}"
+	                                                th:value="${position.id}"
+	                                                th:selected="${position.id.equals(employeeForm.positionCommand.id)}"
+	                                                th:text="${position.position}">Status</option>
+	                                    </select><!-- " -->
+	                                    <span class="help-block" th:if="${#fields.hasErrors('positionCommand.id')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('positionCommand.id')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+								</div>
+								<div class="row" style="margin-top : 10px;">
+									<div class="col-md-1 col-md-offset-5">
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+									<div class="col-md-1">
+										<button type="reset" class="btn btn-primary" value="Reset">Reset</button>
+										<!-- <a class="btn btn-primary" href="#" th:href="@{'/employee/search/reset'}" role="button" th:text="${'Reset'}">Reset</a> -->
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>Question Search</title>
+<!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" 
+integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"
+th:href="@{/webjars/bootstrap/4.3.1/css/bootstrap.min.css}"> -->
+
+<link rel="stylesheet" href="/webjars/bootstrap/3.3.7-1/css/bootstrap.min.css">
+
+<script src="/webjars/jquery/1.11.1/jquery.min.js"></script>
+
+<!-- <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" 
+integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"
+th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script> -->
+
+<script src="/webjars/bootstrap/3.3.7-1/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container-fluid" style="margin-top:20px;">
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<a class="btn btn-link" href="#" th:href="@{'/employee/new'}" role="button">Create New Employee</a>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-8 col-md-offset-2">
+				<form th:object="${employeeSearchCommand}" th:action="@{/employee/search/new}" method="post">
+					<input type="hidden" th:field="*{page}">
+					<input type="hidden" th:field="*{size}">
+					<div th:if="${#fields.hasErrors('*')}" class="alert alert-danger has-error">
+						<p>Please correct errors below</p>
+						<span class="help-block" th:if="${#fields.hasErrors('error')}">
+							<ul>
+								<li th:each="err : ${#fields.errors('error')}" th:text="${err}">
+							</ul>
+						</span>
+					</div>
+					<div class="panel-group">
+						<div class="panel panel-primary" style="margin-bottom : 5px;">
+							<div class="panel-heading">
+								<h1 class="panel-title">Employee Search</h1>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-md-3 form-group" th:class="${#fields.hasErrors('id')} 
+									? 'col-md-3 form-group has-error' : 'col-md-3 form-group'">
+										<label>Employee ID</label>
+										<input type="number" class="form-control" th:field="*{id}" th:errorClass="has-error">
+										<span class="help-block" th:if="${#fields.hasErrors('id')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('id')}" th:text="${err}">
+											</ul>
+										</span>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5 form-group">
+										<label>First Name</label>
+										<input type="text" class="form-control" th:field="*{firstName}">
+										<!-- <span class="help-block" th:if="${#fields.hasErrors('firstName')}">
+											<ul>
+												<li th:each="err : ${#fields.errors('question')}" th:text="${err}">
+											</ul>
+										</span> -->
+									</div>
+									<div class="col-md-5 form-group">
+										<label>Last Name</label>
+										<input type="text" class="form-control" th:field="*{lastName}">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5 form-group">
+										<label>From Hire Date</label>
+										<input type="date" class="form-control" th:field="*{startDateGreaterThan}">
+									</div>
+									<div class="col-md-5 form-group">
+										<label>To Hire Date</label>
+										<input type="date" class="form-control" th:field="*{startDateLessThan}">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-5 form-group">
+										<label>From Termination Date</label>
+										<input type="date" class="form-control" th:field="*{endDateGreaterThan}">
+									</div>
+									<div class="col-md-5 form-group">
+										<label>To Termination Date</label>
+										<input type="date" class="form-control" th:field="*{endDateLessThan}">
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-md-3">
+										<label>Address 1</label>
+										<input type="text" class="form-control" th:field="*{address}">
+									</div>
+									<div class="col-md-3" form-group>
+										<label>Position ID</label>
+										<select class="form-control" th:field="*{positionId}">
+											<option value="" th:selected="true"></option>
+	                                        <option th:each="position : ${positions}"
+	                                                th:value="${position.id}"
+	                                                th:selected="${position.id.equals(employeeSearchCommand.positionId)}"
+	                                                th:text="${position.position}">Position</option>
+	                                    </select>
+									</div>
+									<div class="col-md-3" form-group>
+										<label>Status ID</label>
+										<select class="form-control" th:field="*{statusId}">
+											<option value="" th:selected="true"></option>
+	                                        <option th:each="status : ${statuses}"
+	                                                th:value="${status.id}"
+	                                                th:selected="${status.id.equals(employeeSearchCommand.statusId)}"
+	                                                th:text="${status.status}">Status</option>
+	                                    </select>
+									</div>
+								</div>
+								<div class="row" style="margin-top : 10px;">
+									<div class="col-md-1 col-md-offset-5">
+										<button type="submit" class="btn btn-primary">Submit</button>
+									</div>
+									<div class="col-md-1">
+										<!-- <button type="reset" class="btn btn-primary" value="Reset">Reset</button> -->
+										<a class="btn btn-primary" href="#" th:href="@{'/employee/search/reset'}" role="button" th:text="${'Reset'}">Reset</a>
+									</div>
+								</div>
+							</div>
+						</div>
+						
+					</div>
+				</form>
+			</div>
+		</div>
+		
+		<!-- ---------------------------- Search Results -------------------------- -->
+		<div class="row" th:if="${searchResults != null && searchResults.getContent() != null && searchResults.getContent().size() > 0}">
+			<div class="col-md-8 col-md-offset-2">
+				<div class="panel-group">
+					<div class="panel panel-primary">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-md-1">
+									ID
+								</div>	
+								<div class="col-md-2">
+									First Name
+								</div>
+								<div class="col-md-2">
+									Last Name
+								</div>
+								<div class="col-md-1">
+									Hire Date
+								</div>
+								<div class="col-md-1">
+									Status
+								</div>
+								<div class="col-md-2">
+									Position
+								</div>
+								<div class="col-md-1">
+									View
+								</div>
+								<div class="col-md-1">
+									Update
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="row" th:each="result : ${searchResults.getContent()}" style="margin-bottom:2px;">
+								<div class="col-md-1" th:text="${result.id}">
+									ID
+								</div>
+								<div class="col-md-2" th:text="${result.firstName}">
+									First Name
+								</div>
+								<div class="col-md-2" th:text="${result.lastName}">
+									Last Name
+								</div>
+								<div class="col-md-1" th:text="${#dates.format(result.startDate, 'MM/dd/yyyy')}">
+									Hire Date
+								</div>
+								<div class="col-md-1" th:text="${result.statusCommand.status}">
+									Status
+								</div>
+								<div class="col-md-2" th:text="${result.positionCommand.position}">
+									Position
+								</div>
+								<div class="col-md-1">
+									<form th:object="${employeeSearchCommand}" th:action="@{/employee/{employeeId}/show(employeeId=${result.id})}" method="post">
+										<input type="hidden" th:field="*{id}">
+										<input type="hidden" th:field="*{firstName}">
+										<input type="hidden" th:field="*{lastName}">
+										<input type="hidden" th:field="*{startDateLessThan}">
+										<input type="hidden" th:field="*{startDateGreaterThan}">
+										<input type="hidden" th:field="*{endDateLessThan}">
+										<input type="hidden" th:field="*{endDateGreaterThan}">
+										<input type="hidden" th:field="*{address}">
+										<input type="hidden" th:field="*{positionId}">
+										<input type="hidden" th:field="*{statusId}">
+										<input type="hidden" th:field="*{page}">
+										<input type="hidden" th:field="*{size}">
+										<button type="submit" class="btn btn-primary btn-sm">View</button>
+									</form>
+								</div>
+								<div class="col-md-1">
+									<form th:object="${employeeSearchCommand}" th:action="@{/employee/{employeeId}/update(employeeId=${result.id})}" method="post">
+										<input type="hidden" th:field="*{id}">
+										<input type="hidden" th:field="*{firstName}">
+										<input type="hidden" th:field="*{lastName}">
+										<input type="hidden" th:field="*{startDateLessThan}">
+										<input type="hidden" th:field="*{startDateGreaterThan}">
+										<input type="hidden" th:field="*{endDateLessThan}">
+										<input type="hidden" th:field="*{endDateGreaterThan}">
+										<input type="hidden" th:field="*{address}">
+										<input type="hidden" th:field="*{positionId}">
+										<input type="hidden" th:field="*{statusId}">
+										<input type="hidden" th:field="*{page}">
+										<input type="hidden" th:field="*{size}">
+										<button type="submit" class="btn btn-primary btn-sm">Update</button>
+									</form>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-md-1 col-md-offset-4">
+								</div>
+								<div class="col-md-1" style="margin-right:10px;" th:if="${searchResults.hasPrevious() == true}">  <!--  -->
+									<form th:object="${employeeSearchCommand}" th:action="@{/employee/search/prev}" method="post">
+										<input type="hidden" th:field="*{id}">
+										<input type="hidden" th:field="*{firstName}">
+										<input type="hidden" th:field="*{lastName}">
+										<input type="hidden" th:field="*{startDateLessThan}">
+										<input type="hidden" th:field="*{startDateGreaterThan}">
+										<input type="hidden" th:field="*{endDateLessThan}">
+										<input type="hidden" th:field="*{endDateGreaterThan}">
+										<input type="hidden" th:field="*{address}">
+										<input type="hidden" th:field="*{positionId}">
+										<input type="hidden" th:field="*{statusId}">
+										<input type="hidden" th:field="*{page}">
+										<input type="hidden" th:field="*{size}">
+										<button type="submit" class="btn btn-primary">Previous</button>
+									</form>
+								</div>
+								
+								<div class="col-md-1" th:if="${searchResults.hasNext() == true}">  <!--  -->
+									<form th:object="${employeeSearchCommand}" th:action="@{/employee/search/next}" method="post">
+										<input type="hidden" th:field="*{id}">
+										<input type="hidden" th:field="*{firstName}">
+										<input type="hidden" th:field="*{lastName}">
+										<input type="hidden" th:field="*{startDateLessThan}">
+										<input type="hidden" th:field="*{startDateGreaterThan}">
+										<input type="hidden" th:field="*{endDateLessThan}">
+										<input type="hidden" th:field="*{endDateGreaterThan}">
+										<input type="hidden" th:field="*{address}">
+										<input type="hidden" th:field="*{positionId}">
+										<input type="hidden" th:field="*{statusId}">
+										<input type="hidden" th:field="*{page}">
+										<input type="hidden" th:field="*{size}">
+										<button type="submit" class="btn btn-primary">Next</button>
+									</form>
+								</div>
+								
+							</div>	
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</body>
+</html>
