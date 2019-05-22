@@ -7,8 +7,9 @@ import javax.validation.Valid;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.AbstractBindingResult;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.annotation.Validated;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -29,6 +30,7 @@ import com.query.dsl.user.search.service.EmployeeService;
 import com.query.dsl.user.search.service.PositionService;
 import com.query.dsl.user.search.service.StateService;
 import com.query.dsl.user.search.service.StatusService;
+import com.query.dsl.user.search.validator.EmployeeSearchCommandValid;
 import com.query.dsl.user.search.validator.EmployeeSearchCommandValidator;
 
 import lombok.extern.slf4j.Slf4j;
@@ -86,6 +88,17 @@ public class EmployeeController {
 		return INDEX;
 	}
 	
+	@PostMapping("/search/auto")
+	public String searchEmployeeAuto(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) {
+		
+		if(!EmployeeSearchCommandValid.isEmployeeSearchCommandValid(employeeSearchCommand)) {
+			return INDEX;
+		}
+		model.addAttribute("searchResults", this.employeeService.searchEmployee(employeeSearchCommand, pageable));
+		model.addAttribute("employeeSearchCommand", employeeSearchCommand);
+		return INDEX;
+	}
+	
 	@PostMapping("/search/next")
 	public String searchEmployeeNextPage(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) {
 		
@@ -111,6 +124,7 @@ public class EmployeeController {
 	@GetMapping("/new")
 	public String saveEmployeeNew(Model model) {
 		model.addAttribute("employeeForm", new EmployeeCommand());
+		model.addAttribute("employeeSearchCommand", new EmployeeSearchCommand());
 		return EMPLOYEE_FORM;
 	}
 	

@@ -19,22 +19,8 @@ public class EmployeeSearchCommandValidator implements Validator {
 	public void validate(Object target, Errors errors) {
 		EmployeeSearchCommand esc = (EmployeeSearchCommand)target;
 		
-		if(isBlank(esc.getAddress()) 
-				&& esc.getId() == null 
-				&& esc.getEndDateGreaterThan() == null 
-				&& esc.getEndDateLessThan() == null 
-				&& isBlank(esc.getFirstName()) 
-				&& isBlank(esc.getLastName()) 
-				&& esc.getPositionId() == null 
-				&& esc.getStartDateGreaterThan() == null 
-				&& esc.getStartDateLessThan() == null 
-				&& esc.getStatusId() == null) {
-			errors.rejectValue("error", "error.employeeSearchCommand.form", "You must fill at least one field, for the employee search to be conducted");			
+		if(!EmployeeSearchCommandValid.isEmployeeSearchCommandValid(esc)) {
+			errors.rejectValue("error", "error.employeeSearchCommand.form", "You must fill at least one field, for the employee search to be conducted");
 		}
 	}
-	
-	private Boolean isBlank(String s) {
-		return (s == null) || StringUtils.isEmpty(s.trim());
-	}
-	
 }

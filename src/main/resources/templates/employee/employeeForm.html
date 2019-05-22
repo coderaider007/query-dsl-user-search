@@ -20,11 +20,11 @@ th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script> -->
 <body>
 	<div class="container-fluid" style="margin-top:20px;">
 		<div class="row" style="margin-bottom : 10px;">
-			<div class="col-md-8 col-md-offset-1">
+			<div class="col-md-8 col-md-offset-2">
 				<div class="row">
 					<div class="col-md-10"></div>
 					<div class="col-md-1" style="margin-right:10px;" th:if="${employeeSearchCommand != null}">  
-						<form th:object="${employeeSearchCommand}" th:action="@{/employee/search/new}" method="post">
+						<form th:object="${employeeSearchCommand}" th:action="@{/employee/search/auto}" method="post">
 							<input type="hidden" th:field="*{id}">
 							<input type="hidden" th:field="*{firstName}">
 							<input type="hidden" th:field="*{lastName}">
@@ -44,7 +44,7 @@ th:src="@{/webjars/bootstrap/4.3.1/js/bootstrap.min.js}"></script> -->
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-md-8 col-md-offset-1">
+			<div class="col-md-8 col-md-offset-2">
 				<form th:object="${employeeForm}" th:action="@{/employee/save}" method="post">
 					<input type="hidden" th:field="*{id}">
 					<input type="hidden" th:field="*{addressCommand.id}">
