@@ -2,12 +2,12 @@ package com.query.dsl.user.search.predicate;
 
 import java.util.Date;
 
-import org.hibernate.procedure.internal.Util.ResultClassesResolutionContext;
 import org.springframework.stereotype.Component;
 
 import com.query.dsl.user.search.command.EmployeeSearchCommand;
 import com.query.dsl.user.search.domain.QEmployee;
 import com.querydsl.core.types.dsl.BooleanExpression;
+
 
 @Component
 public class EmployeePredicate {
