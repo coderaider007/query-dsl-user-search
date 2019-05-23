@@ -119,7 +119,7 @@ public class EmployeeServiceImplTest {
 	}
 
 	@Test
-	public void testSearchEmployee() {
+	public void testSearchEmployee() throws Exception {
 		
 		EmployeeSearchCommand employeeSearchCommand = new EmployeeSearchCommand();
 		employeeSearchCommand.setAddress("123 Hunt Rd");
@@ -145,7 +145,7 @@ public class EmployeeServiceImplTest {
 	}
 
 	@Test
-	public void testLoadNexPage() {
+	public void testLoadNexPage() throws Exception {
 		EmployeeSearchCommand employeeSearchCommand = new EmployeeSearchCommand();
 		employeeSearchCommand.setAddress("123 Hunt Rd");
 		
@@ -169,7 +169,7 @@ public class EmployeeServiceImplTest {
 	}
 	
 	@Test
-	public void testLoadPrevPage() {
+	public void testLoadPrevPage() throws Exception {
 		EmployeeSearchCommand employeeSearchCommand = new EmployeeSearchCommand();
 		employeeSearchCommand.setAddress("123 Hunt Rd");
 		

@@ -29,5 +29,11 @@ public class CountryCommandToCountryTest {
 		assertNotNull(country);
 		assertEquals(Long.valueOf(1), country.getId());
 	}
+	
+	@Test
+	public void testConvertNull() {
+		Country country = this.countryCommandToCountry.convert(null);
+		assertNull(country);
+	}
 
 }

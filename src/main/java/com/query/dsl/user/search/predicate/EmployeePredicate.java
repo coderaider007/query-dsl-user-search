@@ -71,7 +71,7 @@ public class EmployeePredicate {
 		return qEmployee.position.position.toLowerCase().like("%"+position.toLowerCase()+"%");
 	}
 	
-	public BooleanExpression findEmployerByPositionId(Long positionId) {
+	public BooleanExpression findEmployeeByPositionId(Long positionId) {
 		if(positionId == null || positionId <= 0) {
 			return anyBoolean;
 		}
@@ -104,15 +104,19 @@ public class EmployeePredicate {
 	 * 
 	 * @param employeeSearchCommand
 	 * @return
+	 * @throws Exception 
 	 */
-	public BooleanExpression getPredicate(EmployeeSearchCommand employeeSearchCommand) {
+	public BooleanExpression getPredicate(EmployeeSearchCommand employeeSearchCommand) throws Exception {
+		if(employeeSearchCommand == null) {
+			throw new Exception("Invalid search parameters");
+		}
 		BooleanExpression be = this.findEmployeeByAddress(employeeSearchCommand.getAddress())
 				.and(this.findEmployeeByEndDateGreaterThanOrEqual(employeeSearchCommand.getEndDateGreaterThan()))
 				.and(this.findEmployeeByEndDateLessThanOrEqual(employeeSearchCommand.getEndDateLessThan()))
 				.and(this.findEmployeeByFirstName(employeeSearchCommand.getFirstName()))
 				.and(this.findEmployeeById(employeeSearchCommand.getId()))
 				.and(this.findEmployeeByLastName(employeeSearchCommand.getLastName()))
-				.and(this.findEmployerByPositionId(employeeSearchCommand.getPositionId()))
+				.and(this.findEmployeeByPositionId(employeeSearchCommand.getPositionId()))
 				.and(this.findEmployeeByStartDateGreaterThanOrEqual(employeeSearchCommand.getStartDateGreaterThan()))
 				.and(this.findEmployeeByStartDateLessThanOrEqual(employeeSearchCommand.getStartDateLessThan()))
 				.and(this.findEmployeeByStatusId(employeeSearchCommand.getStatusId()));

@@ -12,7 +12,7 @@ public class StatusCommandToStatus implements Converter<StatusCommand, Status> {
 	@Override
 	public Status convert(StatusCommand source) {
 		if(source == null) {
-			
+			return null;
 		}
 		Status status = new Status();
 		status.setId(source.getId());

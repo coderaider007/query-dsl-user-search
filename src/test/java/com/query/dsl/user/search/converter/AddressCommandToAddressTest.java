@@ -53,5 +53,11 @@ public class AddressCommandToAddressTest {
 		assertNotNull(address.getCountry());
 		assertEquals(Long.valueOf(1), address.getCountry().getId());
 	}
+	
+	@Test
+	public void testConvertNull() {
+		Address address = this.addressCommandToAddress.convert(null);
+		assertNull(address);
+	}
 
 }

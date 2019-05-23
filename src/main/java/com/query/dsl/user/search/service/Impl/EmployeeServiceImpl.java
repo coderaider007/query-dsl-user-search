@@ -69,10 +69,11 @@ public class EmployeeServiceImpl implements EmployeeService {
 	
 
 	/**
+	 * @throws Exception 
 	 * 
 	 */
 	@Override
-	public Page<EmployeeCommand> searchEmployee(EmployeeSearchCommand employeeSearchCommand, Pageable pageable){
+	public Page<EmployeeCommand> searchEmployee(EmployeeSearchCommand employeeSearchCommand, Pageable pageable) throws Exception{
 		List<EmployeeCommand> employees = new ArrayList<>();
 		BooleanExpression predicate = this.employeePredicate.getPredicate(employeeSearchCommand);
 		Page<Employee> employeePage = this.employeeRepository.findAll(predicate, pageable); 
@@ -87,11 +88,12 @@ public class EmployeeServiceImpl implements EmployeeService {
 	}
 	
 	/**
+	 * @throws Exception 
 	 * 
 	 */
 	@Override
 	public Page<EmployeeCommand> loadPrevNexPage(EmployeeSearchCommand employeeSearchCommand, Pageable pageable,
-			Boolean isIncrementPage) {
+			Boolean isIncrementPage) throws Exception {
 		if(isIncrementPage) {
 			pageable = this.incrementPage(pageable);
 		}

@@ -2,6 +2,7 @@ package com.query.dsl.user.search.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import java.time.Year;
 import java.util.Calendar;
@@ -102,6 +103,12 @@ public class EmployeeCommandToEmployeeTest {
 		assertEquals(address.getId(), Long.valueOf(4));
 		assertNotNull(address.getCountry());
 		
+	}
+	
+	@Test
+	public void testConvertNull() {
+		Employee  employee = this.employeeCommandToEmployee.convert(null);
+		assertNull(employee);
 	}
 
 }

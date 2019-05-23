@@ -2,6 +2,7 @@ package com.query.dsl.user.search.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,4 +53,10 @@ public class AddressToAddressCommandTest {
 		assertEquals(Long.valueOf(1), addressCommand.getCountryCommand().getId());
 	}
 
+	@Test
+	public void testConvertNull() {
+		AddressCommand addressCommand = this.addressToAddressCommand.convert(null);
+		assertNull(addressCommand);
+		
+	}
 }

@@ -76,7 +76,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/search/new")
-	public String searchEmployee(@Valid @ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, BindingResult result, Pageable pageable, Model model) {
+	public String searchEmployee(@Valid @ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, BindingResult result, Pageable pageable, Model model) throws Exception {
 		if(result.hasErrors()) {
 			result.getAllErrors().forEach(error -> {
 				log.error(error.getDefaultMessage());
@@ -89,7 +89,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/search/auto")
-	public String searchEmployeeAuto(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) {
+	public String searchEmployeeAuto(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) throws Exception {
 		
 		if(!EmployeeSearchCommandValid.isEmployeeSearchCommandValid(employeeSearchCommand)) {
 			return INDEX;
@@ -100,7 +100,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/search/next")
-	public String searchEmployeeNextPage(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) {
+	public String searchEmployeeNextPage(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) throws Exception {
 		
 		model.addAttribute("searchResults", this.employeeService.loadPrevNexPage(employeeSearchCommand, pageable, true));
 		model.addAttribute("employeeSearchCommand", employeeSearchCommand);
@@ -108,7 +108,7 @@ public class EmployeeController {
 	}
 	
 	@PostMapping("/search/prev")
-	public String searchEmployeePrevPage(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) {
+	public String searchEmployeePrevPage(@ModelAttribute("employeeSearchCommand") EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Model model) throws Exception {
 		
 		model.addAttribute("searchResults", this.employeeService.loadPrevNexPage(employeeSearchCommand, pageable, false));
 		model.addAttribute("employeeSearchCommand", employeeSearchCommand);

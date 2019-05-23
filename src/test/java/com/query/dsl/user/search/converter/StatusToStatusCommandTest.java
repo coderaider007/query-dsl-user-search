@@ -30,4 +30,9 @@ public class StatusToStatusCommandTest {
 		assertEquals("INACTIVE", statusCommand.getStatus());
 	}
 
+	@Test
+	public void testConvertNull() {
+		StatusCommand statusCommand = this.statusToStatusCommand.convert(null);
+		assertNull(statusCommand);
+	}
 }

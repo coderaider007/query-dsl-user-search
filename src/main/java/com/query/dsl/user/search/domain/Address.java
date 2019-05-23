@@ -4,6 +4,8 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import com.query.dsl.user.search.domain.audit.Audit;
 
@@ -25,15 +27,25 @@ public class Address extends MainEntity {
 	 * 
 	 */
 	private static final long serialVersionUID = -6550180310967188092L;
+	
+	@NotBlank
 	private String address1;
 	private String address2;
+	
+	@NotBlank
 	private String city;
+	
+	@NotBlank
 	private String postalCode;
+	
+	@NotNull
 	private Boolean isMainAddress = Boolean.FALSE;
 	
+	@NotNull
 	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	private State state;
 	
+	@NotNull
 	@ManyToOne(cascade= {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
 	private Country country;
 

@@ -34,5 +34,11 @@ public class StateToStateCommandTest {
 		assertNotNull(stateCommand);
 		assertEquals(Long.valueOf(1), stateCommand.getId());
 	}
+	
+	@Test
+	public void testConvertNull() {
+		StateCommand stateCommand = this.stateToStateCommand.convert(null);
+		assertNull(stateCommand);
+	}
 
 }

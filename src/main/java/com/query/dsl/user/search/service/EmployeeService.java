@@ -22,7 +22,7 @@ public interface EmployeeService {
 	 * @param pageable
 	 * @return
 	 */
-	public Page<EmployeeCommand> searchEmployee(EmployeeSearchCommand employeeSearchCommand, Pageable pageable);
+	public Page<EmployeeCommand> searchEmployee(EmployeeSearchCommand employeeSearchCommand, Pageable pageable) throws Exception;
 	
 	/**
 	 * 
@@ -39,5 +39,5 @@ public interface EmployeeService {
 	 * @param isIncrementPage
 	 * @return
 	 */
-	public Page<EmployeeCommand> loadPrevNexPage(EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Boolean isIncrementPage);
+	public Page<EmployeeCommand> loadPrevNexPage(EmployeeSearchCommand employeeSearchCommand, Pageable pageable, Boolean isIncrementPage) throws Exception;
 }

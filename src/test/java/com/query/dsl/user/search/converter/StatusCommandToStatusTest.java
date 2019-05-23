@@ -2,6 +2,7 @@ package com.query.dsl.user.search.converter;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +29,12 @@ public class StatusCommandToStatusTest {
 		
 		assertNotNull(status);
 		assertEquals("Active", status.getStatus());
+	}
+	
+	@Test
+	public void testConvertNull() {
+		Status status = this.statusCommandToStatus.convert(null);
+		assertNull(status);
 	}
 
 }

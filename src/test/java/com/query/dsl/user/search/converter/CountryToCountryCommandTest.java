@@ -29,4 +29,9 @@ public class CountryToCountryCommandTest {
 		assertEquals("China", country.getName());
 	}
 
+	@Test
+	public void testConvertNull() {
+		CountryCommand countryCommand = this.countryToCountryCommand.convert(null);
+		assertNull(countryCommand);
+	}
 }

@@ -28,5 +28,11 @@ public class PositionCommandToPositionTest {
 		assertNotNull(position);
 		assertEquals("Engineer", position.getPosition());
 	}
+	
+	@Test
+	public void testConvertNull() {
+		Position position = this.positionCommandToPosition.convert(null);
+		assertNull(position);
+	}
 
 }
